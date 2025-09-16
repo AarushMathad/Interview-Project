@@ -1,11 +1,15 @@
 Explain what task you struggled with the most, and how you overcame it.
 
-...Type here...
+I struggled the most with the 3D point cloud. More specifically, the creation of the Q matrix used for reprojection was a bit difficult to learn about and put together. Although the definition of the Q matrix is quite simple, I made an error which led to the 3D reprojection forming a cone-shape spray of pixels rather than a 3D image. I find that I am best able to work with something when I completely understand how it works, so I stepped away from the code to read more about the topic and spent time figuring everything out. After doing this, I was able to return and immediately see that I made an error in setting up the matrix which led to the unusual result. I was able to redefine the matrix correctly, which I verified by opening the final result in MeshLab.
+
 
 Research NeRF analysis methods and write an overview of how it works in no longer than 2 paragraphs. 
 
-...Type here...
+NeRF, or neural radiance fields, is a deep learning technique used to construct 3D models/settings from 2D images. It takes in 3D coordinates, as well as 2 viewing angles, for a final 5-dimensional input. The core of it is a Multi-Layer Perceptron, which is a type of artificial neural network containing an input layer, one or more hidden layers, and an output layer that ouputs a color (in RGB) and a volume density for that specific point when viewed from the input direction. An MLP is suitable for this task since it can effectively approximate functions that map 3D coordinates and viewing directions to color and density in settings with great variations in color and geometry. 
+
+For each pixel in the final render, a ray is cast from the camera's viewing direction through that pixel into the 3D space. For points along the ray, the model calculates color and volume density to be combined and determine the final color of the pixel. Another reason MLPs are used is because their process is differentiable, which allows gradient descent to be applied. This allows the difference between the final render and the original image to be found and used during training to tweak the model's weights. Through this training, the network can learn to encode an image's entire geometry and nuances, which includes complex things such as reflections and translucency/transparency.
 
 Write an overview of an aspect you found most interesting in no longer than 1 paragraph.
 
-...Type here...
+I found it interesting that this process of comparing two 2D images and estimating the depth to construct them in 3D is actually mimicking how our eyes and brain perceive depth. When the final 3D model rendered, I noticed there were gaps behind objects, which makes sense since the cameras, just like our eyes, cannot see these regions and thus have no data for what is actually there. We as humans are able to "fill in" those areas by assuming what is present based on the surroundings, but the computer wasn't able to do that. This led me to wonder what sort of machine learning and AI technologies can be applied to "fill in" unseen areas of scenes, and also what the benefits/pitfalls of doing so would be.
+
